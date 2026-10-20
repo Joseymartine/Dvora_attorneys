@@ -1,0 +1,22 @@
+{% load static %}
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}Workspace{% endblock %} | Dvora Attorneys</title>
+<meta name="theme-color" content="#191b43"><meta name="robots" content="noindex,nofollow">
+<link rel="stylesheet" href="{% static 'core/css/site.css' %}">
+<link rel="icon" href="{% static 'core/images/dvora-logo.svg' %}" type="image/svg+xml">
+</head><body>
+<a class="skip-link" href="#main-content">Skip to content</a>
+<div class="workspace">
+<aside class="sidebar"><div class="sidebar-brand"><a href="{% url 'home' %}" aria-label="Dvora Attorneys home"><img class="brand-logo" src="{% static 'core/images/dvora-logo.svg' %}" alt="Dvora Attorneys at Law" width="300" height="88"></a><small>Practice workspace</small></div>
+<p class="nav-label">Your workspace</p><nav class="sidebar-nav" aria-label="Main navigation">
+<a href="{% url 'home' %}">{% include 'core/icon.html' with name='grid' %}Firm homepage</a>
+{% if perms.clients.view_client %}<a href="{% url 'clients:list' %}" {% if request.resolver_match.namespace == 'clients' %}class="active" aria-current="page"{% endif %}>{% include 'core/icon.html' with name='users' %}Clients</a>{% endif %}
+{% if perms.cases.view_case %}<a href="{% url 'cases:list' %}" {% if request.resolver_match.namespace == 'cases' %}class="active" aria-current="page"{% endif %}>{% include 'core/icon.html' with name='case' %}Cases</a>{% endif %}
+{% if perms.appointments.view_appointment %}<a href="{% url 'appointments:list' %}" {% if request.resolver_match.namespace == 'appointments' %}class="active" aria-current="page"{% endif %}>{% include 'core/icon.html' with name='calendar' %}Appointments</a>{% endif %}
+{% if user.is_superuser %}<a href="{% url 'admin:index' %}">{% include 'core/icon.html' with name='shield' %}Administration</a>{% endif %}
+</nav><div class="sidebar-bottom"><div class="sidebar-note">{% include 'core/icon.html' with name='shield' %}<strong>A considered practice</strong>Handle every client’s information with care.</div><small>DVORA · DODOMA, TANZANIA</small></div></aside>
+<div class="workspace-main"><header class="workspace-topbar"><div class="breadcrumb"><a href="{% url 'home' %}">Dvora Attorneys</a><span>/</span><b>{% if request.resolver_match.namespace == 'clients' %}Client management{% elif request.resolver_match.namespace == 'cases' %}Case management{% elif request.resolver_match.namespace == 'appointments' %}Appointments{% else %}Workspace{% endif %}</b></div><div class="account">{% if user.is_authenticated %}<span class="avatar" aria-hidden="true">{{ user.get_username|first|upper }}</span><div><div class="account-name">{{ user.get_full_name|default:user.get_username }}</div><div class="account-status">Your practice workspace</div></div><form method="post" action="{% url 'logout' %}">{% csrf_token %}<button type="submit" aria-label="Sign out">{% include 'core/icon.html' with name='logout' %}<span>Sign out</span></button></form>{% else %}<a class="button button-small" href="{% url 'login' %}">Sign in</a>{% endif %}</div></header>
+<main class="workspace-content" id="main-content"><div class="workspace-eyebrow">Dvora Attorneys at Law</div>{% for message in messages %}<p class="message {{ message.tags }}" role="status">{{ message }}</p>{% endfor %}{% block content %}{% endblock %}</main>
+<footer class="workspace-footer"><span>© {% now 'Y' %} Dvora Attorneys at Law · Your trusted attorneys at service.</span><a href="mailto:dvoraatlaw@gmail.com">Contact our office ↗</a></footer></div></div>
+</body></html>

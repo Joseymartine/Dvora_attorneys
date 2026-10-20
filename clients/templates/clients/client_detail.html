@@ -1,0 +1,8 @@
+{% extends 'clients/base.html' %}
+{% block title %}{{ object }}{% endblock %}
+{% block content %}
+<a href="{% url 'clients:list' %}">Back to clients</a>
+<h1>{{ object }}</h1>
+<div class="card"><dl><dt>Email</dt><dd>{{ object.email|default:'Not provided' }}</dd><dt>Phone</dt><dd>{{ object.phone }}</dd><dt>Address</dt><dd>{{ object.address|default:'Not provided'|linebreaksbr }}</dd><dt>Added</dt><dd>{{ object.created_at }}</dd><dt>Last updated</dt><dd>{{ object.updated_at }}</dd></dl></div>
+<div class="actions">{% if perms.clients.change_client %}<a class="button" href="{% url 'clients:update' object.pk %}">Edit client</a>{% endif %}{% if client_administrator and perms.clients.delete_client %}<a href="{% url 'clients:delete' object.pk %}">Delete client</a>{% endif %}</div>
+{% endblock %}

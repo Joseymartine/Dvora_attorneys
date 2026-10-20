@@ -1,0 +1,12 @@
+{% extends 'clients/base.html' %}
+{% block title %}Clients{% endblock %}
+{% block content %}
+<div class="actions"><h1>Clients</h1>{% if client_administrator and perms.clients.add_client %}<a class="button" href="{% url 'clients:create' %}">Add client</a>{% endif %}</div>
+<div class="card table-wrap">
+{% if clients %}
+<table><thead><tr><th scope="col">Name</th><th scope="col">Email</th><th scope="col">Phone</th><th scope="col">Actions</th></tr></thead>
+<tbody>{% for client in clients %}<tr><td><a href="{% url 'clients:detail' client.pk %}">{{ client }}</a></td><td>{{ client.email|default:'—' }}</td><td>{{ client.phone }}</td><td>{% if perms.clients.change_client %}<a href="{% url 'clients:update' client.pk %}" aria-label="Edit {{ client }}">Edit</a>{% endif %}</td></tr>{% endfor %}</tbody></table>
+{% else %}<p>No clients available.</p>{% endif %}
+</div>
+{% if is_paginated %}<nav class="actions pagination" aria-label="Client pages">{% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}">Previous</a>{% endif %}<span>Page {{ page_obj.number }} of {{ paginator.num_pages }}</span>{% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}">Next</a>{% endif %}</nav>{% endif %}
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends 'clients/base.html' %}
+{% block title %}{% if object %}Edit appointment{% elif appointment_administrator %}Add appointment{% else %}Request consultation{% endif %}{% endblock %}
+{% block content %}
+<h1>{% if object %}Edit appointment{% elif appointment_administrator %}Add appointment{% else %}Request consultation{% endif %}</h1>
+<p>Enter times in East Africa Time (UTC+3). The end time must be after the start time.</p>
+{% if not appointment_administrator and not object %}<p>Our office will assign your request to a lawyer for review and approval. Your requested time is not a confirmed booking.</p>{% endif %}
+{% if appointment_administrator %}<p>Only active members of the Lawyers group can be assigned. Confirmed appointments require an assigned lawyer.</p>{% endif %}
+{% if object %}<p>To cancel an appointment, set Status to Cancelled and save. The record stays in the appointment history.</p>{% endif %}
+<form method="post" class="card">{% csrf_token %}{{ form.as_p }}<div class="actions"><button type="submit">{% if object or appointment_administrator %}Save appointment{% else %}Submit request{% endif %}</button><a href="{% if object %}{{ object.get_absolute_url }}{% else %}{% url 'appointments:list' %}{% endif %}">Cancel</a></div></form>
+{% endblock %}

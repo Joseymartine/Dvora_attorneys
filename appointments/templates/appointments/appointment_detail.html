@@ -1,0 +1,8 @@
+{% extends 'clients/base.html' %}
+{% block title %}{{ object.title }}{% endblock %}
+{% block content %}
+<a href="{% url 'appointments:list' %}">Back to appointments</a><h1>{{ object.title }}</h1>
+<div class="card"><dl><dt>Client</dt><dd>{{ object.client }}</dd><dt>Lawyer</dt><dd>{{ object.assigned_lawyer|default:'Awaiting assignment' }}</dd><dt>Status</dt><dd><span class="status status-{{ object.status }}">{{ object.get_status_display }}</span></dd><dt>Start (East Africa Time)</dt><dd>{{ object.starts_at|date:'d M Y, H:i' }}</dd><dt>End (East Africa Time)</dt><dd>{{ object.ends_at|date:'d M Y, H:i' }}</dd><dt>Notes</dt><dd>{{ object.notes|default:'Not provided'|linebreaksbr }}</dd></dl></div>
+{% if object.status == 'requested' %}<p class="message" role="status">{% if object.assigned_lawyer %}Awaiting approval by {{ object.assigned_lawyer }}.{% else %}Your request is awaiting lawyer assignment by our office.{% endif %} Your appointment is confirmed once its status changes to Confirmed.</p>{% endif %}
+<div class="actions">{% if can_approve_appointment %}<form method="post" action="{% url 'appointments:approve' object.pk %}">{% csrf_token %}<button type="submit">Approve appointment</button></form>{% endif %}{% if can_edit_appointment %}<a class="button" href="{% url 'appointments:update' object.pk %}">Edit or cancel appointment</a>{% endif %}</div>
+{% endblock %}

@@ -1,0 +1,3 @@
+{% extends 'clients/base.html' %}
+{% block title %}Delete case{% endblock %}
+{% block content %}<h1>Delete case</h1><div class="card"><p>Delete <strong>{{ object }}</strong>? This permanently removes the case.</p><form method="post">{% csrf_token %}<div class="actions"><button class="danger" type="submit">Delete case</button><a href="{{ object.get_absolute_url }}">Cancel</a></div></form></div>{% endblock %}

@@ -1,0 +1,7 @@
+{% extends 'clients/base.html' %}
+{% block title %}Cases{% endblock %}
+{% block content %}
+<div class="actions"><h1>Cases</h1>{% if case_administrator and perms.cases.add_case %}<a class="button" href="{% url 'cases:create' %}">Add case</a>{% endif %}</div>
+<div class="card table-wrap">{% if cases %}<table><thead><tr><th scope="col">Case</th><th scope="col">Client</th><th scope="col">Lawyer</th><th scope="col">Status</th><th scope="col">Opened</th></tr></thead><tbody>{% for case in cases %}<tr><td><a href="{{ case.get_absolute_url }}">{{ case }}</a></td><td>{{ case.client }}</td><td>{{ case.assigned_lawyer.get_full_name|default:case.assigned_lawyer.username }}</td><td><span class="status status-{{ case.status }}">{{ case.get_status_display }}</span></td><td>{{ case.date_opened }}</td></tr>{% endfor %}</tbody></table>{% else %}<p>No cases available.{% if not case_administrator %} Cases assigned to you will appear here.{% endif %}</p>{% endif %}</div>
+{% if is_paginated %}<nav class="actions pagination" aria-label="Case pages">{% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}">Previous</a>{% endif %}<span>Page {{ page_obj.number }} of {{ paginator.num_pages }}</span>{% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}">Next</a>{% endif %}</nav>{% endif %}
+{% endblock %}

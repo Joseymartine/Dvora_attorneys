@@ -1,0 +1,7 @@
+{% extends 'clients/base.html' %}
+{% block title %}Delete client{% endblock %}
+{% block content %}
+<h1>Delete client</h1>
+{{ form.non_field_errors }}
+<div class="card"><p>Delete <strong>{{ object }}</strong>? This permanently removes this client record.</p><form method="post">{% csrf_token %}<div class="actions"><button class="danger" type="submit">Delete client</button><a href="{% url 'clients:detail' object.pk %}">Cancel</a></div></form></div>
+{% endblock %}

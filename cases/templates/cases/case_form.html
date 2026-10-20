@@ -1,0 +1,7 @@
+{% extends 'clients/base.html' %}
+{% block title %}{% if object %}Edit case{% else %}Add case{% endif %}{% endblock %}
+{% block content %}
+<h1>{% if object %}Edit case{% else %}Add case{% endif %}</h1>
+{% if case_administrator %}<p>Assign cases to active users in the Lawyers group.</p>{% endif %}
+<form method="post" class="card">{% csrf_token %}{{ form.as_p }}<div class="actions"><button type="submit">Save case</button><a href="{% if object %}{{ object.get_absolute_url }}{% else %}{% url 'cases:list' %}{% endif %}">Cancel</a></div></form>
+{% endblock %}

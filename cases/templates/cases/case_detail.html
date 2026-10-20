@@ -1,0 +1,7 @@
+{% extends 'clients/base.html' %}
+{% block title %}{{ object.case_number }}{% endblock %}
+{% block content %}
+<a href="{% url 'cases:list' %}">Back to cases</a><h1>{{ object }}</h1>
+<div class="card"><dl><dt>Client</dt><dd>{{ object.client }}</dd><dt>Assigned lawyer</dt><dd>{{ object.assigned_lawyer.get_full_name|default:object.assigned_lawyer.username }}</dd><dt>Status</dt><dd><span class="status status-{{ object.status }}">{{ object.get_status_display }}</span></dd><dt>Date opened</dt><dd>{{ object.date_opened }}</dd><dt>Description</dt><dd>{{ object.description|default:'Not provided'|linebreaksbr }}</dd></dl></div>
+<div class="actions">{% if perms.cases.change_case %}<a class="button" href="{% url 'cases:update' object.pk %}">Edit case</a>{% endif %}{% if case_administrator and perms.cases.delete_case %}<a href="{% url 'cases:delete' object.pk %}">Delete case</a>{% endif %}</div>
+{% endblock %}

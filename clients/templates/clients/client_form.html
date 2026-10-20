@@ -1,0 +1,6 @@
+{% extends 'clients/base.html' %}
+{% block title %}{% if object %}Edit client{% else %}Add client{% endif %}{% endblock %}
+{% block content %}
+<h1>{% if object %}Edit client{% else %}Add client{% endif %}</h1>
+<form method="post" class="card">{% csrf_token %}{{ form.as_p }}<div class="actions"><button type="submit">Save client</button>{% if object %}<a href="{% url 'clients:detail' object.pk %}">Cancel</a>{% else %}<a href="{% url 'clients:list' %}">Cancel</a>{% endif %}</div></form>
+{% endblock %}
